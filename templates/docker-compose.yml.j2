@@ -162,3 +162,40 @@ services:
 {% endif %}
 {% endif %}
 {% endfor %}
+{% if networks is defined %}
+{% if networks|length >= 1 %}
+networks:
+{% for network in networks %}
+  {{ network.network_name }}:
+{% if network.driver is defined %}
+    driver: {{ network.driver }}
+{% endif %}
+{% if network.driver_opts is defined %}
+    driver_opts:
+{% for driver_opt in network.driver_opts %}
+      {{ driver_opt.name }}: {{ driver_opt.value }}
+{% endfor %}
+{% endif %}
+{% if network.external is defined %}
+    external: true
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if volumes is defined %}
+{% if volumes|length >= 1 %}
+volumes:
+{% for volume in volumes %}
+  {{ volume.volume_name }}:
+{% if volume.driver is defined %}
+    driver: {{ volume.driver }}
+{% endif %}
+{% if volume.driver_opts is defined %}
+    driver_opts:
+{% for opt in volume.driver_opts %}
+      {{ opt.name }}: "{{ opt.value }}"
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}

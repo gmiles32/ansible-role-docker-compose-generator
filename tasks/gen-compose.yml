@@ -1,0 +1,21 @@
+---
+- name: Load configuration file for {{ item }}
+  include_vars:
+    file: "{{ services_config_path }}/{{ item }}.yml"
+  delegate_to: localhost
+- name: Ensure target directory for {{ item }} exists
+  file:
+    path: "{{ docker_compose_generator_output_path }}/{{ item }}"
+    state: directory
+    owner: "{{ docker_compose_generator_uid }}"
+    group: "{{ docker_compose_generator_gid }}"
+- name: Write docker compose for {{ item }}
+  template:
+    src: ../templates/docker-compose.yml.j2
+    dest: "{{ docker_compose_generator_output_path }}/{{ item }}/docker-compose.yml"
+    owner: "{{ docker_compose_generator_uid }}"
+    group: "{{ docker_compose_generator_gid }}"
+# - name: Unset variables
+#   set_fact:
+#     volumes: []
+#     networks: []

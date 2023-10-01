@@ -1,8 +1,17 @@
 # ansible-role-docker-compose-generator
 
-Pass this role a hash and it will generate a docker-compose.yml file. The following structure is supported and is designed to be passed to the role using `group_vars`.
+A fork of [this repository](https://github.com/ironicbadger/ansible-role-docker-compose-generator). I really liked the way this role was set up and how it worked, but it didn't really fit into how my homelab is configured. I use individual `docker-compose.yml` files to keep services seperated, and the current role didn't really allow for multiple configurations. Piggy backing off of the previous role, I allowed for looping the same tasks, using a list of service names specified in the `group_vars` file. For each config, it will create a direcotry and write a `docker-compose.yml` to that directory on the remote machine.
+
+Additionally, it is now possible to specifiy volume and network options in you config (WIP).
+
+---
+
+Pass this role a hash and it will generate a series of docker-compose.yml file. The following structure is supported and is designed to be passed to the role using `group_vars`.
 
 Rendered files are output to the `output` directory.
+
+---
+
 
 ```
 ---
@@ -14,6 +23,11 @@ global_env_vars:
 appdata_path: /opt/appdata
 container_config_path: /config
 container_data_path: /data
+services:
+  - list
+  - of
+  - services
+services_config_path: /path/to/service/configs
 
 # container definitions
 containers:
@@ -75,4 +89,15 @@ containers:
     mem_limit: 128m
     ports:
       - "4242:4242"
+
+networks:
+  - network_name: frontend
+    external: true
+
+volumes:
+  - volume_name: tmp
+    driver: local
+    driver_opts:
+      - name:
+        value
 ```
