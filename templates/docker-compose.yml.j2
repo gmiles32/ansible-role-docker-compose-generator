@@ -160,6 +160,12 @@ services:
 {% if container.restart is defined %}
     restart: {{ container.restart }}
 {% endif %}
+{% if container.networks is defined %}
+    networks:
+{% for network in container.networks %}
+      - {{ network }}
+{% endfor %}
+{% endif %}
 {% endif %}
 {% endfor %}
 {% if networks is defined %}
