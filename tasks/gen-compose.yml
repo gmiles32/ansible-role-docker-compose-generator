@@ -15,7 +15,3 @@
     dest: "{{ docker_compose_generator_output_path }}/{{ item }}/docker-compose.yml"
     owner: "{{ docker_compose_generator_uid }}"
     group: "{{ docker_compose_generator_gid }}"
-# - name: Unset variables
-#   set_fact:
-#     volumes: []
-#     networks: []

@@ -73,8 +73,14 @@ services:
 {% endif %}
 {% if container.depends_on is defined %}
     depends_on:
-{% for dependent in container.depends_on %}
-      - {{ dependent }}
+{% for dependency in container.depends_on %}
+{% if dependency.condition is not defined %}
+      - {{ dependency.name }}
+{% endif %}
+{% if dependency.condition is defined %}
+      {{ dependency.name }}:
+        condition: {{ dependency.condition }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% if container.hostname is defined %}

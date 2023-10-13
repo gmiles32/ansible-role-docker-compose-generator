@@ -8,10 +8,3 @@
 - name: Write docker-compose file for each service
   include_tasks: gen-compose.yml
   loop: "{{ services }}"
-  # vars_files:
-  #   - "{{ services_config_path }}/{{ item }}.yml"
-  # template:
-  #   src: ../templates/docker-compose.yml.j2
-  #   dest: "{{ docker_compose_generator_output_path }}/{{ item }}/docker-compose.yml"
-  #   owner: "{{ docker_compose_generator_uid }}"
-  #   group: "{{ docker_compose_generator_gid }}"
