@@ -172,6 +172,12 @@ services:
       - {{ network }}
 {% endfor %}
 {% endif %}
+{% if container.healthcheck is defined %}
+    healthcheck:
+{% for healthcheck in container.healthcheck %}
+      {{ healthcheck.name }}: {{ healthcheck.value }}
+{% endfor %}
+{% endif %}
 {% endif %}
 {% endfor %}
 {% if networks is defined %}
